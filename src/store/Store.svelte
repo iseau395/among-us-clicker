@@ -5,15 +5,17 @@
 
     let open = false;
 
+    const items = [{
+        name: "Crewmate",
+        description: "Does tasks for you!",
+        price: 50
+    }]
+
     const dispatch = createEventDispatcher<{ "purchase": number }>();
 
     function register_purchase(item: number) {
-        switch (item) {
-            case 0:
-                if ($points < 50) return;
-                else $points -= 50;
-                break;
-        }
+        if ($points < items[item].price) return;
+        else $points -= items[item].price;
 
         dispatch("purchase", item);
     }
@@ -24,7 +26,9 @@
 <div class="store-wrapper" style="left: {open ? "60%" : "100%"}">
     <div class="store-trim"></div>
     <div class="store-contents">
-        <StoreButton on:click={() => register_purchase(0)} name="Crewmate" description="Does tasks for you!" price={50}></StoreButton>
+        {#each items as item}
+        <StoreButton on:click={() => register_purchase(0)} {...item}></StoreButton>
+        {/each}
     </div>
 </div>
 
