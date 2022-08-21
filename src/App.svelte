@@ -52,7 +52,7 @@
 
 <p>{$points.toString().padStart(6, "0")}</p>
 <main style="background-position: {Math.floor(backgound_x)}px {Math.floor(backgound_y)}px">
-    <img src="./media/amongus.png" alt="among us" draggable="false" style="rotate: {crewmate_rotation}deg;" on:click={() => $points++}/>
+    <img src="./media/crewmates/red.png" alt="among us" draggable="false" style="rotate: {crewmate_rotation}deg;" on:click={() => $points++}/>
 </main>
 <Store on:purchase={purchase}></Store>
 
