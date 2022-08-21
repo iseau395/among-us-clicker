@@ -20,7 +20,7 @@
 </script>
 
 <div class="background" style={open ? "" : "display: none"}></div>
-<img src="/media/store-button.png" alt="open store" style="right: {open ? "40%" : "0%"}" on:click={() => open = !open}/>
+<img src="./media/store-button.png" alt="open store" style="right: {open ? "40%" : "0%"}" on:click={() => open = !open}/>
 <div class="store-wrapper" style="left: {open ? "60%" : "100%"}">
     <div class="store-trim"></div>
     <div class="store-contents">
@@ -64,7 +64,7 @@
     }
 
     div.store-trim {
-        background-image: url("/media/store-trim.png");
+        background-image: url("./media/store-trim.png");
         background-size: contain;
 
         margin-top: 290px;

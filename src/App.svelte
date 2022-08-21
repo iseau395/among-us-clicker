@@ -52,13 +52,13 @@
 
 <p>{$points.toString().padStart(6, "0")}</p>
 <main style="background-position: {Math.floor(backgound_x)}px {Math.floor(backgound_y)}px">
-    <img src="/media/amongus.png" alt="among us" draggable="false" style="rotate: {crewmate_rotation}deg;" on:click={() => $points++}/>
+    <img src="./media/amongus.png" alt="among us" draggable="false" style="rotate: {crewmate_rotation}deg;" on:click={() => $points++}/>
 </main>
 <Store on:purchase={purchase}></Store>
 
 <style>
     main {
-        background-image: url("/media/space.png");
+        background-image: url("./media/space.png");
 
         width: 100%;
         height: 100%;
@@ -71,7 +71,7 @@
     }
 
     p {
-        background-image: url("/media/score-background.png");
+        background-image: url("./media/score-background.png");
 
         background-size: cover;
         background-repeat: no-repeat;
