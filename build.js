@@ -739,21 +739,21 @@
     			t2 = space();
     			div2 = element("div");
     			create_component(storebutton.$$.fragment);
-    			attr_dev(div0, "class", "background svelte-1w2jlbs");
+    			attr_dev(div0, "class", "background svelte-w9hd1q");
     			attr_dev(div0, "style", div0_style_value = /*open*/ ctx[0] ? "" : "display: none");
     			add_location(div0, file$1, 18, 0, 471);
-    			if (!src_url_equal(img.src, img_src_value = "/media/store-button.png")) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = "./media/store-button.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "open store");
     			set_style(img, "right", /*open*/ ctx[0] ? "40%" : "0%");
-    			attr_dev(img, "class", "svelte-1w2jlbs");
+    			attr_dev(img, "class", "svelte-w9hd1q");
     			add_location(img, file$1, 19, 0, 539);
-    			attr_dev(div1, "class", "store-trim svelte-1w2jlbs");
-    			add_location(div1, file$1, 21, 4, 732);
-    			attr_dev(div2, "class", "store-contents svelte-1w2jlbs");
-    			add_location(div2, file$1, 22, 4, 768);
-    			attr_dev(div3, "class", "store-wrapper svelte-1w2jlbs");
+    			attr_dev(div1, "class", "store-trim svelte-w9hd1q");
+    			add_location(div1, file$1, 21, 4, 733);
+    			attr_dev(div2, "class", "store-contents svelte-w9hd1q");
+    			add_location(div2, file$1, 22, 4, 769);
+    			attr_dev(div3, "class", "store-wrapper svelte-w9hd1q");
     			set_style(div3, "left", /*open*/ ctx[0] ? "60%" : "100%");
-    			add_location(div3, file$1, 20, 0, 661);
+    			add_location(div3, file$1, 20, 0, 662);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -911,16 +911,16 @@
     			img = element("img");
     			t2 = space();
     			create_component(store.$$.fragment);
-    			attr_dev(p, "class", "svelte-16g8kzr");
+    			attr_dev(p, "class", "svelte-13y9pwn");
     			add_location(p, file, 37, 0, 1010);
-    			if (!src_url_equal(img.src, img_src_value = "/media/amongus.png")) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = "./media/amongus.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "among us");
     			attr_dev(img, "draggable", "false");
     			set_style(img, "rotate", /*crewmate_rotation*/ ctx[2] + "deg");
-    			attr_dev(img, "class", "svelte-16g8kzr");
+    			attr_dev(img, "class", "svelte-13y9pwn");
     			add_location(img, file, 39, 4, 1153);
     			set_style(main, "background-position", Math.floor(/*backgound_x*/ ctx[0]) + "px " + Math.floor(/*backgound_y*/ ctx[1]) + "px");
-    			attr_dev(main, "class", "svelte-16g8kzr");
+    			attr_dev(main, "class", "svelte-13y9pwn");
     			add_location(main, file, 38, 0, 1056);
     		},
     		l: function claim(nodes) {
