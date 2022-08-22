@@ -35,7 +35,8 @@
                 );
             }
 
-            floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+            // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+            floating_things = floating_things;
         } else {
             floating_things = [];
             crewmate_count = 0;
@@ -63,7 +64,8 @@
                     ]
                 )
             );
-            floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+            // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+            floating_things = floating_things;
 
             crewmate_count++;
         }
@@ -97,7 +99,8 @@
                     thing.regen();
             }
 
-            floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+            // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+            floating_things = floating_things;
 
             animation_frame = requestAnimationFrame(tick_animation);
         }
@@ -177,9 +180,6 @@
 
         text-align: right;
 
-        width: 275px;
-        height: 75px;
-
         font-family: "Amatic SC", cursive;
         color: white;
         font-size: 50px;
@@ -191,7 +191,8 @@
         padding-bottom: 20px;
         padding-right: 65px;
 
-        /* width: 100px; */
+        width: 275px;
+        height: 75px;
 
         display: inline;
         margin: 0px;

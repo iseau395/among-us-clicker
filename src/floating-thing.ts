@@ -8,9 +8,9 @@ export class FloatingThing {
     texture: string;
 
     constructor(texture: string) {
-        this.texture = texture;
         this.regen();
 
+        this.texture = texture;
         this.float_amount = Math.random();
     }
 
@@ -24,9 +24,5 @@ export class FloatingThing {
 
         this.distance = Math.random() * 0.5;
         this.height = Math.random();
-    }
-
-    tick() {
-        this.float_amount += this.distance;
     }
 }
