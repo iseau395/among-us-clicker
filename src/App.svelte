@@ -18,23 +18,36 @@
     const crewmate_autoclick_time = 2000;
     let crewmate_count = 0;
 
-    if (localStorage.getItem("last-time") && localStorage.getItem("last-score") && localStorage.getItem("last-crewmate-count")) {
-        crewmate_count = +localStorage.getItem("last-crewmate-count");
+    function load_save() {
+        if (localStorage.getItem("last-time") && localStorage.getItem("last-score") && localStorage.getItem("last-crewmate-count")) {
+            crewmate_count = +localStorage.getItem("last-crewmate-count");
 
-        const seconds_elapsed = (Date.now() - (+localStorage.getItem("last-time")) * 60000) / 1000;
-        $points = +localStorage.getItem("last-score") + seconds_elapsed / 2;
+            const seconds_elapsed = (Date.now() - (+localStorage.getItem("last-time")) * 60000) / 1000;
+            $points = +localStorage.getItem("last-score") + seconds_elapsed / 2;
 
-        for (let i = 0; i < crewmate_count; i++) {
-            floating_things.push(
-                new FloatingThing(
-                    crewmates[
-                        Math.round(Math.random() * (crewmates.length - 1))
-                    ]
-                )
-            );
+            for (let i = 0; i < crewmate_count; i++) {
+                floating_things.push(
+                    new FloatingThing(
+                        crewmates[
+                            Math.round(Math.random() * (crewmates.length - 1))
+                        ]
+                    )
+                );
+            }
+
+            floating_things = floating_things.sort((a, b) => a.distance - b.distance);
+        } else {
+            floating_things = [];
+            crewmate_count = 0;
+            $points = 0;
         }
+    }
 
-        floating_things = floating_things;
+    load_save();
+
+    globalThis.resetAmongus = () => {
+        localStorage.clear();
+        load_save();
     }
 
     let animation_frame = null;
@@ -50,7 +63,7 @@
                     ]
                 )
             );
-            floating_things = floating_things;
+            floating_things = floating_things.sort((a, b) => a.distance - b.distance);
 
             crewmate_count++;
         }
@@ -84,7 +97,7 @@
                     thing.regen();
             }
 
-            floating_things = floating_things;
+            floating_things = floating_things.sort((a, b) => a.distance - b.distance);
 
             animation_frame = requestAnimationFrame(tick_animation);
         }
