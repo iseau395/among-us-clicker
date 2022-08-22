@@ -18,8 +18,28 @@
     const crewmate_autoclick_time = 2000;
     let crewmate_count = 0;
 
+    if (localStorage.getItem("last-time") && localStorage.getItem("last-score") && localStorage.getItem("last-crewmate-count")) {
+        crewmate_count = +localStorage.getItem("last-crewmate-count");
+
+        const seconds_elapsed = (Date.now() - (+localStorage.getItem("last-time")) * 60000) / 1000;
+        $points = +localStorage.getItem("last-score") + seconds_elapsed / 2;
+
+        for (let i = 0; i < crewmate_count; i++) {
+            floating_things.push(
+                new FloatingThing(
+                    crewmates[
+                        Math.round(Math.random() * (crewmates.length - 1))
+                    ]
+                )
+            );
+        }
+
+        floating_things = floating_things;
+    }
+
     let animation_frame = null;
-    let timer: NodeJS.Timer;
+    let autoclick_timer: NodeJS.Timer;
+    let autosave_timer: NodeJS.Timer;
 
     function purchase(e: CustomEvent<number>) {
         if (e.detail == 0) {
@@ -74,13 +94,20 @@
         function tick_crewmates() {
             $points += crewmate_count * (50 / crewmate_autoclick_time);
         }
+        autoclick_timer = setInterval(tick_crewmates, 50);
 
-        timer = setInterval(tick_crewmates, 50);
+        function autosave() {
+            localStorage.setItem("last-time", (Date.now() / 60000).toString());
+            localStorage.setItem("last-score", $points.toString());
+            localStorage.setItem("last-crewmate-count", crewmate_count.toString());
+        }
+        autosave_timer = setInterval(autosave, 1000);
     });
 
     onDestroy(() => {
         if (animation_frame) cancelAnimationFrame(animation_frame);
-        if (timer) clearTimeout(timer);
+        if (autoclick_timer) clearTimeout(autoclick_timer);
+        if (autosave_timer) clearTimeout(autosave_timer);
     });
 </script>
 
