@@ -23,7 +23,7 @@
 
 <div class="background" style={open ? "" : "display: none"}></div>
 <img src="./media/store-button.png" alt="open store" style="right: {open ? "40%" : "0%"}" on:click={() => open = !open}/>
-<div class="store-wrapper" style="left: {open ? "60%" : "100%"}">
+<div class="store-wrapper" style={open ? "" : "display: none"}>
     <div class="store-trim"></div>
     <div class="store-contents">
         {#each items as item}
@@ -62,7 +62,7 @@
 
         position: absolute;
 
-        left: 100%;
+        left: 60%;
 
         top: 0px;
 
