@@ -8,7 +8,7 @@
         (c) => `./media/crewmates/${c}.png`
     );
     
-    let main: HTMLMainElement;
+    let main: HTMLElement;
 
     let backgound_x = 0;
     let backgound_y = 0;
@@ -46,8 +46,6 @@
         }
     }
 
-    load_save();
-
     globalThis.resetAmongus = () => {
         localStorage.clear();
         load_save();
@@ -74,6 +72,8 @@
     }
 
     onMount(() => {
+        load_save();
+
         function tick_animation() {
             backgound_x += 0.05;
             backgound_y += 0.05;
@@ -142,10 +142,9 @@
             src={thing.texture}
             style="
             z-index: {Math.round(thing.distance * 20)};
-            rotate: {thing.rotation}deg;
-            transform: scale({thing.distance / 2 + 0.05});
-            top: {thing.height * (main.innerHeight - 100) - 200}px;
-            left: {thing.float_amount * (main.innerWidth + 300) - 300}px;"
+            transform: rotate({thing.rotation}deg) scale({thing.distance / 2 + 0.05});
+            top: {thing.height * (main.offsetHeight - 100) - 200}px;
+            left: {thing.float_amount * (main.offsetWidth + 300) - 300}px;"
             alt="something floating"
         />
     {/each}
@@ -155,7 +154,7 @@
         src="./media/crewmates/red.png"
         alt="among us"
         draggable="false"
-        style="rotate: {crewmate_rotation}deg;"
+        style="transform: scale(0.5) rotate({crewmate_rotation}deg);"
         on:click={() => $points++}
     />
 </main>
@@ -209,7 +208,6 @@
     }
 
     img.foreground-crewmate {
-        transform: scale(0.5);
         z-index: 21;
     }
 </style>
