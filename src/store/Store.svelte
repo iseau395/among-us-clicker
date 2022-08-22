@@ -78,7 +78,7 @@
         margin-top: 290px;
 
         width: 8px;
-        height: 100%;
+        height: calc(100% - 290px);
     }
 
     div.store-contents {
