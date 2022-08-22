@@ -7,6 +7,8 @@
     const crewmates = ["black", "blue", "black", "brown", "darkgreen"].map(
         (c) => `./media/crewmates/${c}.png`
     );
+    
+    let main: HTMLMainElement;
 
     let backgound_x = 0;
     let backgound_y = 0;
@@ -132,6 +134,7 @@
     style="background-position: {Math.floor(backgound_x)}px {Math.floor(
         backgound_y
     )}px"
+    bind:this={main}
 >
     {#each floating_things as thing}
         <img
@@ -141,8 +144,8 @@
             z-index: {Math.round(thing.distance * 20)};
             rotate: {thing.rotation}deg;
             transform: scale({thing.distance / 2 + 0.05});
-            top: {thing.height * (window.innerHeight - 100) - 200}px;
-            left: {thing.float_amount * (window.innerWidth + 300) - 300}px;"
+            top: {thing.height * (main.innerHeight - 100) - 200}px;
+            left: {thing.float_amount * (main.innerWidth + 300) - 300}px;"
             alt="something floating"
         />
     {/each}
