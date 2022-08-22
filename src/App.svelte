@@ -137,11 +137,12 @@
         <img
             class="background-crewmate"
             src={thing.texture}
-            style="rotate: {thing.rotation}deg; transform: scale({thing.distance /
-                2 +
-                0.05}); top: {thing.height * (window.innerHeight - 100) -
-                200}px; left: {thing.float_amount * (window.innerWidth + 300) -
-                300}px;"
+            style="
+            z-index: {Math.round(thing.distance * 20)};
+            rotate: {thing.rotation}deg;
+            transform: scale({thing.distance / 2 + 0.05});
+            top: {thing.height * (window.innerHeight - 100) - 200}px;
+            left: {thing.float_amount * (window.innerWidth + 300) - 300}px;"
             alt="something floating"
         />
     {/each}
@@ -197,7 +198,7 @@
         display: inline;
         margin: 0px;
 
-        z-index: 2;
+        z-index: 22;
     }
 
     img.background-crewmate {
@@ -206,6 +207,6 @@
 
     img.foreground-crewmate {
         transform: scale(0.5);
-        z-index: 1;
+        z-index: 21;
     }
 </style>
