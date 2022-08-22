@@ -2,20 +2,38 @@
     import { onMount, onDestroy } from "svelte";
     import { points } from "./points";
     import Store from "./store/Store.svelte";
+    import { FloatingThing } from "./floating-thing";
+
+    const crewmates = ["black", "blue", "black", "brown", "darkgreen"].map(
+        (c) => `./media/crewmates/${c}.png`
+    );
 
     let backgound_x = 0;
     let backgound_y = 0;
 
     let crewmate_rotation = 0;
 
-    let animation_frame = null;
+    let floating_things: FloatingThing[] = [];
 
-    let crewmates = 0;
+    const crewmate_autoclick_time = 2000;
+    let crewmate_count = 0;
+
+    let animation_frame = null;
     let timer: NodeJS.Timer;
 
     function purchase(e: CustomEvent<number>) {
-        if (e.detail == 0)
-            crewmates++;
+        if (e.detail == 0) {
+            floating_things.push(
+                new FloatingThing(
+                    crewmates[
+                        Math.round(Math.random() * (crewmates.length - 1))
+                    ]
+                )
+            );
+            floating_things = floating_things;
+
+            crewmate_count++;
+        }
     }
 
     onMount(() => {
@@ -30,31 +48,71 @@
 
             crewmate_rotation = crewmate_rotation % 360;
 
+            for (const thing of floating_things) {
+                thing.float_amount += thing.distance / 2 * thing.direction * 0.001;
+                thing.height += thing.distance * thing.vertical_direction * 0.0005;
+
+                thing.rotation +=
+                    (Math.round(
+                        (thing.distance * 1984) / thing.vertical_direction +
+                            thing.direction * 2048
+                    ) %
+                        1000) /
+                    5000;
+
+                if (thing.float_amount > 1 || thing.float_amount < 0)
+                    thing.regen();
+            }
+
+            floating_things = floating_things;
+
             animation_frame = requestAnimationFrame(tick_animation);
         }
 
         tick_animation();
 
         function tick_crewmates() {
-            $points += crewmates;
+            $points += crewmate_count * (50 / crewmate_autoclick_time);
         }
 
-        timer = setInterval(tick_crewmates, 1000);
+        timer = setInterval(tick_crewmates, 50);
     });
 
     onDestroy(() => {
-        if (animation_frame)
-            cancelAnimationFrame(animation_frame);
-        if (timer)
-            clearTimeout(timer);
-    })
+        if (animation_frame) cancelAnimationFrame(animation_frame);
+        if (timer) clearTimeout(timer);
+    });
 </script>
 
-<p>{$points.toString().padStart(6, "0")}</p>
-<main style="background-position: {Math.floor(backgound_x)}px {Math.floor(backgound_y)}px">
-    <img src="./media/crewmates/red.png" alt="among us" draggable="false" style="rotate: {crewmate_rotation}deg;" on:click={() => $points++}/>
+<p>{Math.floor($points)}</p>
+<main
+    style="background-position: {Math.floor(backgound_x)}px {Math.floor(
+        backgound_y
+    )}px"
+>
+    {#each floating_things as thing}
+        <img
+            class="background-crewmate"
+            src={thing.texture}
+            style="rotate: {thing.rotation}deg; transform: scale({thing.distance /
+                2 +
+                0.05}); top: {thing.height * (window.innerHeight - 100) -
+                200}px; left: {thing.float_amount * (window.innerWidth + 300) -
+                300}px;"
+            alt="something floating"
+        />
+    {/each}
+
+    <img
+        class="foreground-crewmate"
+        src="./media/crewmates/red.png"
+        alt="among us"
+        draggable="false"
+        style="rotate: {crewmate_rotation}deg;"
+        on:click={() => $points++}
+    />
 </main>
-<Store on:purchase={purchase}></Store>
+<Store on:purchase={purchase} />
 
 <style>
     main {
@@ -75,9 +133,14 @@
 
         background-size: cover;
         background-repeat: no-repeat;
-        background-position: -140px -10px;
+        background-position: 0px -25px;
 
-        font-family: 'Amatic SC', cursive;
+        text-align: right;
+
+        width: 275px;
+        height: 75px;
+
+        font-family: "Amatic SC", cursive;
         color: white;
         font-size: 50px;
 
@@ -86,15 +149,22 @@
         padding-top: 0px;
         padding-left: 15px;
         padding-bottom: 20px;
-        padding-right: 100px;
+        padding-right: 65px;
 
-        width: 100px;
+        /* width: 100px; */
 
         display: inline;
         margin: 0px;
+
+        z-index: 2;
     }
 
-    img {
+    img.background-crewmate {
+        position: absolute;
+    }
+
+    img.foreground-crewmate {
         transform: scale(0.5);
+        z-index: 1;
     }
 </style>

@@ -38,6 +38,8 @@
         position: absolute;
 
         width: 75px;
+
+        z-index: 2;
     }
 
     div.background {
@@ -49,7 +51,9 @@
         opacity: 0.6;
 
         width: 100%;
-        height: 100%
+        height: 100%;
+
+        z-index: 1;
     }
 
     div.store-wrapper {
@@ -64,7 +68,7 @@
 
         background-color: dimgray;
 
-        z-index: 1;
+        z-index: 2;
     }
 
     div.store-trim {
