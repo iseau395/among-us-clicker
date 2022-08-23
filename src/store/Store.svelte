@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { points } from '../points';
+    import { points, crewmate_count } from '../variable-store';
     import StoreButton from "./StoreButton.svelte";
 
     let open = false;
@@ -8,13 +8,19 @@
     const items = [{
         name: "Crewmate",
         description: "Does tasks for you!",
-        price: 50
+        price: 50,
+        value: 1,
+        max_value: 250
     }]
 
     const dispatch = createEventDispatcher<{ "purchase": number }>();
 
     function register_purchase(item: number) {
+        console.log($crewmate_count + items[item].value);
+        console.log(items[item].max_value);
+
         if ($points < items[item].price) return;
+        else if ($crewmate_count + items[item].value > items[item].max_value) alert("You have too much stuff! Sell something to buy more of this.");
         else $points -= items[item].price;
 
         dispatch("purchase", item);

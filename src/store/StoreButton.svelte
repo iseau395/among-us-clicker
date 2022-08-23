@@ -1,16 +1,18 @@
 <script lang="ts">
-    import { points } from "../points";
+    import { points, crewmate_count } from "../variable-store";
 
     export let name = "Name Missing";
     export let description = "Description missing";
     export let price: number;
+    export let value: number;
+    export let max_value: number;
 
     let clicking = false;
 
     window.addEventListener("mouseup", () => clicking = false);
 
     function click() {
-        if ($points >= price)
+        if ($points >= price && $crewmate_count + value <= max_value)
             clicking = true;
     }
 </script>

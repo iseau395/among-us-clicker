@@ -19,6 +19,7 @@ export class FloatingThing {
 
         this.float_amount = Math.round(Math.random());
         this.direction = (this.float_amount * 2 - 1) * -1 as -1 | 1;
+        this.float_amount += -this.direction * 0.2;
 
         this.vertical_direction = (Math.round(Math.random()) * 2 - 1) * -1 as -1 | 1;
 

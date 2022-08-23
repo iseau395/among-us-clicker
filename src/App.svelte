@@ -1,14 +1,12 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { points } from "./points";
+    import { points, crewmate_count } from "./variable-store";
     import Store from "./store/Store.svelte";
     import { FloatingThing } from "./floating-thing";
 
     const crewmates = ["black", "blue", "black", "brown", "darkgreen"].map(
         (c) => `./media/crewmates/${c}.png`
     );
-    
-    let main: HTMLElement;
 
     let backgound_x = 0;
     let backgound_y = 0;
@@ -18,16 +16,15 @@
     let floating_things: FloatingThing[] = [];
 
     const crewmate_autoclick_time = 2000;
-    let crewmate_count = 0;
 
     function load_save() {
         if (localStorage.getItem("last-time") && localStorage.getItem("last-score") && localStorage.getItem("last-crewmate-count")) {
-            crewmate_count = +localStorage.getItem("last-crewmate-count");
+            $crewmate_count = +localStorage.getItem("last-crewmate-count");
 
             const seconds_elapsed = (Date.now() - (+localStorage.getItem("last-time")) * 60000) / 1000;
             $points = +localStorage.getItem("last-score") + seconds_elapsed / 2;
 
-            for (let i = 0; i < crewmate_count; i++) {
+            for (let i = 0; i < $crewmate_count; i++) {
                 floating_things.push(
                     new FloatingThing(
                         crewmates[
@@ -41,7 +38,7 @@
             floating_things = floating_things;
         } else {
             floating_things = [];
-            crewmate_count = 0;
+            $crewmate_count = 0;
             $points = 0;
         }
     }
@@ -67,7 +64,7 @@
             // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
             floating_things = floating_things;
 
-            crewmate_count++;
+            $crewmate_count++;
         }
     }
 
@@ -91,13 +88,11 @@
 
                 thing.rotation +=
                     (Math.round(
-                        (thing.distance * 1984) / thing.vertical_direction +
-                            thing.direction * 2048
-                    ) %
-                        1000) /
-                    5000;
+                        thing.distance * 1984 +
+                        thing.direction * 2048
+                    ) % 1000) / 6000;
 
-                if (thing.float_amount > 1 || thing.float_amount < 0)
+                if (thing.float_amount > 1.2 || thing.float_amount < -.2 || thing.height > 1.2 || thing.height < -.2)
                     thing.regen();
             }
 
@@ -110,14 +105,14 @@
         tick_animation();
 
         function tick_crewmates() {
-            $points += crewmate_count * (50 / crewmate_autoclick_time);
+            $points += $crewmate_count * (50 / crewmate_autoclick_time);
         }
         autoclick_timer = setInterval(tick_crewmates, 50);
 
         function autosave() {
             localStorage.setItem("last-time", (Date.now() / 60000).toString());
             localStorage.setItem("last-score", $points.toString());
-            localStorage.setItem("last-crewmate-count", crewmate_count.toString());
+            localStorage.setItem("last-crewmate-count", $crewmate_count.toString());
         }
         autosave_timer = setInterval(autosave, 1000);
     });
@@ -129,23 +124,33 @@
     });
 </script>
 
-<p>{Math.floor($points)}</p>
 <main
 style="background-position:
         {Math.floor(backgound_x)}px
         {Math.floor(backgound_y)}px"
 >
     {#each floating_things as thing}
+    <span
+        style="
+        position: absolute;
+        z-index: {Math.round(thing.distance * 20)};
+        transform-origin: top left;
+        transform:
+            scale({thing.distance / 2 + 0.05});
+        top: {thing.height * 100}%;
+        left: {thing.float_amount * 100}%;
+        ">
         <img
-            class="background-crewmate"
             src={thing.texture}
             style="
             z-index: {Math.round(thing.distance * 20)};
-            transform: rotate({thing.rotation}deg) scale({thing.distance / 2 + 0.05});
-            top: {thing.height * (main.offsetHeight - 100) - 200}px;
-            left: {thing.float_amount * (main.offsetWidth + 300) - 300}px;"
+            transform-origin: center center;
+            transform:
+                rotate({thing.rotation}deg);"
             alt="something floating"
+            draggable="false"
         />
+    </span>
     {/each}
 
     <img
@@ -157,6 +162,7 @@ style="background-position:
         on:click={() => $points++}
     />
 </main>
+<p>{Math.floor($points)}</p>
 <Store on:purchase={purchase} />
 
 <style>
@@ -188,6 +194,9 @@ style="background-position:
 
         position: absolute;
 
+        top: 0px;
+        left: 0px;
+
         padding-top: 0px;
         padding-left: 15px;
         padding-bottom: 20px;
@@ -200,10 +209,6 @@ style="background-position:
         margin: 0px;
 
         z-index: 22;
-    }
-
-    img.background-crewmate {
-        position: absolute;
     }
 
     img.foreground-crewmate {
