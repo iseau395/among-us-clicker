@@ -61,10 +61,14 @@
                     ]
                 )
             );
-            // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
             floating_things = floating_things;
 
             $crewmate_count++;
+        } else if (e.detail == 1) {
+            floating_things.pop();
+            floating_things = floating_things;
+
+            $crewmate_count--;
         }
     }
 

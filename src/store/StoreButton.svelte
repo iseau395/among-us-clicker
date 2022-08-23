@@ -1,18 +1,18 @@
 <script lang="ts">
-    import { points, crewmate_count } from "../variable-store";
+    import { points, getValue } from "../variable-store";
 
     export let name = "Name Missing";
     export let description = "Description missing";
     export let price: number;
     export let value: number;
-    export let max_value: number;
+    export let max_value = 0;
 
     let clicking = false;
 
     window.addEventListener("mouseup", () => clicking = false);
 
     function click() {
-        if ($points >= price && $crewmate_count + value <= max_value)
+        if ($points >= price && (getValue() + value <= max_value || value <= 0))
             clicking = true;
     }
 </script>
@@ -34,7 +34,7 @@
         background-color: darkgray;
 
         height: 50px;
-        width: 100%;
+        width: 90%;
 
         margin: 20px;
         padding: 10px;
