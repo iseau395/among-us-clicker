@@ -129,9 +129,9 @@
 
 <p>{Math.floor($points)}</p>
 <main
-    style="background-position: {Math.floor(backgound_x)}px {Math.floor(
-        backgound_y
-    )}px"
+    style="background-position:
+            {Math.floor(backgound_x)}px
+            {Math.floor(backgound_y)}px"
 >
     {#each floating_things as thing}
         <img
