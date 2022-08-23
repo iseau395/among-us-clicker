@@ -4,7 +4,7 @@
     import Store from "./store/Store.svelte";
     import { FloatingThing } from "./floating-thing";
 
-    const crewmates = ["black", "blue", "black", "brown", "darkgreen"].map(
+    const crewmates = ["black", "blue", "brown", "darkgreen", "orange", "pink", "purple", "yellow"].map(
         (c) => `./media/crewmates/${c}.png`
     );
 
@@ -26,7 +26,7 @@
             floating_things.push(
                 new FloatingThing(
                     crewmates[
-                        Math.round(Math.random() * (crewmates.length - 1))
+                        Math.floor(Math.random() * (crewmates.length))
                     ]
                 )
             );
