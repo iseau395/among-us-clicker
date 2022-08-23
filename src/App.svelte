@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { points, crewmate_count } from "./variable-store";
+    import { points, crewmate_count, imposter_count } from "./variable-store";
     import Store from "./store/Store.svelte";
     import { FloatingThing } from "./floating-thing";
 
@@ -15,32 +15,24 @@
 
     let floating_things: FloatingThing[] = [];
 
-    const crewmate_autoclick_time = 2000;
-
     function load_save() {
-        if (localStorage.getItem("last-time") && localStorage.getItem("last-score") && localStorage.getItem("last-crewmate-count")) {
-            $crewmate_count = +localStorage.getItem("last-crewmate-count");
+        $crewmate_count = +localStorage.getItem("last-crewmate-count") ?? 0;
+        $imposter_count = +localStorage.getItem("last-imposter-count") ?? 0;
 
-            const seconds_elapsed = (Date.now() - (+localStorage.getItem("last-time")) * 60000) / 1000;
-            $points = +localStorage.getItem("last-score") + seconds_elapsed / 2;
+        const seconds_elapsed = (Date.now() - (+localStorage.getItem("last-time") ?? 0) * 60000) / 1000;
+        $points = (+localStorage.getItem("last-score") ?? 0) + seconds_elapsed / 2;
 
-            for (let i = 0; i < $crewmate_count; i++) {
-                floating_things.push(
-                    new FloatingThing(
-                        crewmates[
-                            Math.round(Math.random() * (crewmates.length - 1))
-                        ]
-                    )
-                );
-            }
-
-            // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
-            floating_things = floating_things;
-        } else {
-            floating_things = [];
-            $crewmate_count = 0;
-            $points = 0;
+        for (let i = 0; i < $crewmate_count + $imposter_count; i++) {
+            floating_things.push(
+                new FloatingThing(
+                    crewmates[
+                        Math.round(Math.random() * (crewmates.length - 1))
+                    ]
+                )
+            );
         }
+
+        floating_things = floating_things;
     }
 
     globalThis.resetAmongus = () => {
@@ -65,10 +57,26 @@
 
             $crewmate_count++;
         } else if (e.detail == 1) {
+            floating_things.push(
+                new FloatingThing(
+                    crewmates[
+                        Math.round(Math.random() * (crewmates.length - 1))
+                    ]
+                )
+            );
+            floating_things = floating_things;
+
+            $imposter_count++;
+        } else if (e.detail == 2) {
             floating_things.pop();
             floating_things = floating_things;
 
             $crewmate_count--;
+        } else if (e.detail == 3) {
+            floating_things.pop();
+            floating_things = floating_things;
+
+            $imposter_count--;
         }
     }
 
@@ -109,7 +117,9 @@
         tick_animation();
 
         function tick_crewmates() {
-            $points += $crewmate_count * (50 / crewmate_autoclick_time);
+            $points +=
+                $crewmate_count * (50 / 2000) +
+                $imposter_count * (50 / 500);
         }
         autoclick_timer = setInterval(tick_crewmates, 50);
 
@@ -117,6 +127,7 @@
             localStorage.setItem("last-time", (Date.now() / 60000).toString());
             localStorage.setItem("last-score", $points.toString());
             localStorage.setItem("last-crewmate-count", $crewmate_count.toString());
+            localStorage.setItem("last-imposter-count", $imposter_count.toString());
         }
         autosave_timer = setInterval(autosave, 1000);
     });

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { points,  getValue, crewmate_count } from '../variable-store';
+    import { points, getValue, crewmate_count, imposter_count } from '../variable-store';
     import StoreButton from "./StoreButton.svelte";
 
     let open = false;
@@ -12,21 +12,35 @@
         value: 1,
         max_value: 250
     }, {
+        name: "Imposter",
+        description: "kinda sus ngl",
+        price: 150,
+        value: 1,
+        max_value: 250
+    }, {
         name: "Sell Crewmate",
         description: "Get rid of a Crewmate.",
         price: -50,
+        value: -1,
+    }, {
+        name: "Sell Imposter",
+        description: "Eject the imposter",
+        price: -150,
         value: -1,
     }];
 
     const dispatch = createEventDispatcher<{ "purchase": number }>();
 
     function register_purchase(item: number) {
+        console.log(item);
+
         if ($points < items[item].price) 
             return;
         else if (items[item].value > 0 && getValue() + items[item].value > items[item].max_value)
             return alert("You have too much stuff! Sell something to buy more of this.");
         else switch (item) {
-            case 1: if ($crewmate_count <= 0) return alert("You can't sell any more crewmates!");
+            case 2: if ($crewmate_count <= 0) return alert("You can't sell any more crewmates!"); break;
+            case 3: if ($imposter_count <= 0) return alert("You can't sell any more imposters!"); break;
         }
 
         $points -= items[item].price;
@@ -40,8 +54,8 @@
 <div class="store-wrapper" style={open ? "" : "display: none"}>
     <div class="store-trim"></div>
     <div class="store-contents">
-        {#each items as item}
-        <StoreButton on:click={() => register_purchase(items.indexOf(item))} {...item}></StoreButton>
+        {#each items as item, i}
+        <StoreButton on:click={() => register_purchase(i)} {...item}></StoreButton>
         {/each}
     </div>
 </div>
