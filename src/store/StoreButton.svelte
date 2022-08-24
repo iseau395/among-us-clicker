@@ -18,7 +18,7 @@
 </script>
 
 <div class="button" on:click on:mousedown={click}
-     style="{clicking ? "box-shadow: 0px 0px; margin-top: 23px; margin-left: 23px" : "box-shadow: 3px 3px"}"
+     style="{clicking ? "box-shadow: 0px 0px; margin-top: 23px; margin-left: 23px; margin-bottom: 17px; margin-right: 17px" : "box-shadow: 3px 3px"}"
     >
     <div class="text">
         <h1>{name}</h1>
