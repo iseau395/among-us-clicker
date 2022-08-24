@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { points, getValue } from "../variable-store";
+    import { points } from "../variable-store";
 
     export let name = "Name Missing";
     export let description = "Description missing";
     export let price: number;
-    export let value: number;
 
     let clicking = false;
 

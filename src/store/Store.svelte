@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { points, getValue, crewmate_count, imposter_count } from '../variable-store';
+    import { points, crewmate_count, imposter_count } from '../variable-store';
     import StoreButton from "./StoreButton.svelte";
 
     let open = false;
@@ -8,23 +8,19 @@
     const items = [{
         name: "Crewmate",
         description: "Does tasks for you!",
-        price: 50,
-        value: 1
+        price: 50
     }, {
         name: "Imposter",
         description: "kinda sus ngl",
-        price: 150,
-        value: 1
+        price: 150
     }, {
         name: "Sell Crewmate",
         description: "Get rid of a Crewmate.",
-        price: -50,
-        value: -1,
+        price: -50
     }, {
         name: "Sell Imposter",
         description: "Eject the imposter",
-        price: -150,
-        value: -1,
+        price: -150
     }];
 
     const dispatch = createEventDispatcher<{ "purchase": number }>();
@@ -118,5 +114,8 @@
         display: flex;
 
         flex-direction: column;
+
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 </style>
