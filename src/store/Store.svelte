@@ -9,14 +9,12 @@
         name: "Crewmate",
         description: "Does tasks for you!",
         price: 50,
-        value: 1,
-        max_value: 250
+        value: 1
     }, {
         name: "Imposter",
         description: "kinda sus ngl",
         price: 150,
-        value: 1,
-        max_value: 250
+        value: 1
     }, {
         name: "Sell Crewmate",
         description: "Get rid of a Crewmate.",
@@ -36,8 +34,6 @@
 
         if ($points < items[item].price) 
             return;
-        else if (items[item].value > 0 && getValue() + items[item].value > items[item].max_value)
-            return alert("You have too much stuff! Sell something to buy more of this.");
         else switch (item) {
             case 2: if ($crewmate_count <= 0) return alert("You can't sell any more crewmates!"); break;
             case 3: if ($imposter_count <= 0) return alert("You can't sell any more imposters!"); break;

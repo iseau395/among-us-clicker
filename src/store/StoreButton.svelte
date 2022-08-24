@@ -5,14 +5,13 @@
     export let description = "Description missing";
     export let price: number;
     export let value: number;
-    export let max_value = 0;
 
     let clicking = false;
 
     window.addEventListener("mouseup", () => clicking = false);
 
     function click() {
-        if ($points >= price && (getValue() + value <= max_value || value <= 0))
+        if ($points >= price)
             clicking = true;
     }
 </script>
