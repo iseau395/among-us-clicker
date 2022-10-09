@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { points, getValue, crewmate_count, imposter_count } from '../variable-store';
+    import { points, crewmate_count, imposter_count } from '../variable-store';
     import StoreButton from "./StoreButton.svelte";
 
     let open = false;
@@ -8,25 +8,19 @@
     const items = [{
         name: "Crewmate",
         description: "Does tasks for you!",
-        price: 50,
-        value: 1,
-        max_value: 250
+        price: 50
     }, {
         name: "Imposter",
         description: "kinda sus ngl",
-        price: 150,
-        value: 1,
-        max_value: 250
+        price: 150
     }, {
         name: "Sell Crewmate",
         description: "Get rid of a Crewmate.",
-        price: -50,
-        value: -1,
+        price: -50
     }, {
         name: "Sell Imposter",
         description: "Eject the imposter",
-        price: -150,
-        value: -1,
+        price: -150
     }];
 
     const dispatch = createEventDispatcher<{ "purchase": number }>();
@@ -36,8 +30,6 @@
 
         if ($points < items[item].price) 
             return;
-        else if (items[item].value > 0 && getValue() + items[item].value > items[item].max_value)
-            return alert("You have too much stuff! Sell something to buy more of this.");
         else switch (item) {
             case 2: if ($crewmate_count <= 0) return alert("You can't sell any more crewmates!"); break;
             case 3: if ($imposter_count <= 0) return alert("You can't sell any more imposters!"); break;
@@ -122,5 +114,8 @@
         display: flex;
 
         flex-direction: column;
+
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 </style>
