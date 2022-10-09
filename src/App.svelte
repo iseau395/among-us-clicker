@@ -11,6 +11,11 @@
     let backgound_x = 0;
     let backgound_y = 0;
 
+    let crewmate_x = 0;
+    let crewmate_y = 0;
+    let crewmate_xv = 0.035;
+    let crewmate_yv = 0.03;
+
     let crewmate_rotation = 0;
 
     let floating_things: FloatingThing[] = [];
@@ -108,6 +113,12 @@
                     thing.regen();
             }
 
+            crewmate_xv -= crewmate_x / 5000000 * 2;
+            crewmate_yv -= crewmate_y / 5000000;
+
+            crewmate_x += crewmate_xv;
+            crewmate_y += crewmate_yv;
+
             // floating_things = floating_things.sort((a, b) => a.distance - b.distance);
             floating_things = floating_things;
 
@@ -168,12 +179,12 @@ style="background-position:
     </span>
     {/each}
 
-    <img
+    <div
         class="foreground-crewmate"
-        src="./media/crewmates/red.png"
-        alt="among us"
-        draggable="false"
-        style="transform: scale(0.5) rotate({crewmate_rotation}deg);"
+        style="
+        transform: scale(0.5) rotate({crewmate_rotation}deg);
+        left: {crewmate_x / 2}%;
+        top: {crewmate_y / 2}%;"
         on:click={() => $points++}
     />
 </main>
@@ -226,7 +237,16 @@ style="background-position:
         z-index: 22;
     }
 
-    img.foreground-crewmate {
+    div.foreground-crewmate {
         z-index: 21;
+        position: relative;
+
+        width: 500px;
+        height: 700px;
+
+        background-image: url("./media/crewmates/red.png");
+        background-position: center;
+        background-size : contain;
+        background-repeat: no-repeat;
     }
 </style>
